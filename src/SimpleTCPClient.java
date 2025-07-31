@@ -28,18 +28,15 @@ public class SimpleTCPClient {
 
 
     public void listenerThread(DataInputStream data) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String mensagemDoServidor;
-                try {
-                    while (true) {
-                        mensagemDoServidor = data.readUTF();
-                        System.out.println(mensagemDoServidor);
-                    }
-                } catch (IOException e) {
-                    System.out.println("\n--- Conexão com o servidor foi encerrada ---");
+        Thread thread = new Thread(() -> {
+            String mensagemDoServidor;
+            try {
+                while (true) {
+                    mensagemDoServidor = data.readUTF();
+                    System.out.println(mensagemDoServidor);
                 }
+            } catch (IOException e) {
+                System.out.println("\n--- Conexão com o servidor foi encerrada ---");
             }
         }); //eu fiz uma thread de "escuta" que recebe a mensagem repassada pelo servidor.
         thread.start();
